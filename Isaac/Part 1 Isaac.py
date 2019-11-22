@@ -4,6 +4,7 @@ def GenerateMatrix(m, n):
     matrix = []
     pretty_matrix = []
     magnetization = 0
+    squares = 0
     N = m*n
     for row in range(0, m):
         column = []
@@ -17,14 +18,18 @@ def GenerateMatrix(m, n):
                 pretty_spin = "-"
             column.append(spin)
             magnetization += spin
+            squares += (spin**2)
             pretty_column.append(pretty_spin)
         matrix.append(column)
         pretty_matrix.append(pretty_column)
     magnetization /= N
-    return (matrix, pretty_matrix, magnetization)
+    squares /= N
+    print(squares)
+    spread = squares - (magnetization**2)
+    return (matrix, pretty_matrix, magnetization, spread)
 
-test, pretty_test, magnet = GenerateMatrix(10, 10)
-test2, pretty_test2, magnet2 = GenerateMatrix(64, 64)
+test, pretty_test, magnet, sig1 = GenerateMatrix(10, 10)
+test2, pretty_test2, magnet2, sig2 = GenerateMatrix(64, 64)
 output = open("spin matrix.txt", "w+")
 
 for row in pretty_test:
@@ -40,5 +45,5 @@ for row in pretty_test2:
         output.write(' ')
     output.write('\n')
 
-print(magnet)
-print(magnet2)
+print(magnet, ' ', sig1, np.sqrt(sig1))
+print(magnet2, ' ', sig2, np.sqrt(sig2))
