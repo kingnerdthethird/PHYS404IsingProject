@@ -77,7 +77,7 @@ outcomes = open("Isaac/Results/outcome " + str(run_number) + ".txt", "w+")
 magnetizations = open("Isaac/Magnetizations/magnetizations " + str(run_number) + ".txt", "w+")
 
 parameters = [[3, 3], [10, 10], [64, 64]]
-N = 1000
+N = 100000
 
 for parameter in parameters:
     r, c = parameter[0], parameter[1]
