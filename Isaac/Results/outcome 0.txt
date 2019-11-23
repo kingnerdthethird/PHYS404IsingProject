@@ -1,0 +1,6 @@
+Size: 3x3 Runs: 1000 Average: 0.042 Dispersion: 8.974236000000001 Spread: 2.9957029225208567
+
+Size: 10x10 Runs: 1000 Average: -0.05 Dispersion: 103.9375 Spread: 10.194974252051841
+
+Size: 64x64 Runs: 1000 Average: -3.028 Dispersion: 3928.551216 Spread: 62.67815581205305
+
