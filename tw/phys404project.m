@@ -1,12 +1,23 @@
-%%
+%% 01
 clear all; 
 close all;
-syms n i j Spintot;
-n = 10;
+syms m n i Mag varMag;
+dbstop if error
+for i = [3,10,64]
+    m = i;
+    n = i;
+    [M, Spintot]=matrix(m,n);
+    if i <= 11
+        M
+    end 
+    disp(['Magnetization of ', num2str(i), 'X', num2str(i), ' matrix is'])
+    Mag = Spintot / (m * n)
+end    
+function [M,S] = matrix(x,y)
 Spintot = 0;
-A = rand(n);
-for i = 1:1:n
-    for j = 1:1:n
+A = rand([x,y]);
+for i = 1:1:x
+    for j = 1:1:y
         a = A(i,j);
         if a >= 0.5
             A(i,j) = 1;
@@ -17,6 +28,7 @@ for i = 1:1:n
         end
     end        
 end
-A
-Spintot
+M = A;
+S = Spintot;
+end
 %%
