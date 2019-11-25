@@ -47,9 +47,9 @@ magnetizations = open("Isaac/Data/Magnetizations/Magnetizations " + str(run_numb
 # level three testing parameters
 #parameters, N = [[10, 10]], 10 
 # level four testing parameters
-parameters, N = [[10, 10]], 100 
+#parameters, N = [[10, 10]], 100 
 # small experiment parameters
-#parameters, N = [[3, 3], [10, 10], [64, 64]], 1000 
+parameters, N = [[3, 3], [10, 10], [64, 64]], 1000 
 # large experiment parameters
 #parameters, N = [[3, 3], [10, 10], [64, 64]], 100000 
 # extreme experiment parameters
