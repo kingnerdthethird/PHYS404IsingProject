@@ -1,0 +1,30 @@
+ Magnetizations: 
+-14 
+
+ Magnetizations: 
+-2 -14 
+
+ Magnetizations: 
+-12 -2 -4 
+
+ Magnetizations: 
+-8 4 -14 -6 
+
+ Magnetizations: 
+-6 16 22 2 8 
+
+ Magnetizations: 
+26 -2 -12 24 -14 0 
+
+ Magnetizations: 
+12 -8 4 0 -8 -12 -4 
+
+ Magnetizations: 
+2 -10 -12 -2 2 -4 18 -4 
+
+ Magnetizations: 
+-16 -24 -4 -16 -10 10 4 6 10 
+
+ Magnetizations: 
+-6 -2 4 6 2 -6 -20 2 0 -12 
+
