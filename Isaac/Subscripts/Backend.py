@@ -13,9 +13,9 @@ def CreateDirectory(directory, debug):
             print("Created directory " + directory)
         
 
-def CreateDirectories(user, directories, debug):
+def CreateDirectories(main, directories, debug):
     for directory in directories:
-        target = user + directory
+        target = main + directory
         if debug:
             print("Target directory: " + target)
 

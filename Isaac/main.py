@@ -9,21 +9,21 @@ import Subscripts as ising
 debug = True
 
 print_on = False
-print_size_on = True
-print_matrices_on = True
+print_size_on = False
+print_matrices_on = False
 print_average_on = False
 print_dispersion_on = False
 print_spread_on = False
 print_ms_on = False
-plot_on = True
+plot_on = False
 plot_matrix_on = False
 plot_dispersions_on = False
-plot_spreads_on = True
-plot_averages_on = True
+plot_spreads_on = False
+plot_averages_on = False
 
 run_number = ising.RunNumber(debug)
 
-user = "Isaac"
+main = str(os.path.dirname(os.path.abspath(__file__)))
 directories = ["/Data",
                "/Data/SpinMatrices", 
                "/Data/SpinMatrices/Plots", 
@@ -35,7 +35,7 @@ directories = ["/Data",
                "/Data/Figures", 
                "/Data/Figures/" + str(run_number)]
 
-ising.CreateDirectories(user, directories, debug)
+ising.CreateDirectories(main, directories, debug)
 
 outcomes = open("Isaac/Data/Results/Outcome " + str(run_number) + ".txt", "w+")
 magnetizations = open("Isaac/Data/Magnetizations/Magnetizations " + str(run_number) + ".txt", "w+")
@@ -57,7 +57,7 @@ parameters, N = [[10, 10]], 10
 # maximum experiment parameters
 #parameters, N = [[3, 3], [10, 10], [64, 64], [128, 128], [256, 256]], 100000 
 
-for parameter in parameters:
+""" for parameter in parameters:
     dispersions, spreads, averages, Ns, matrices = [], [], [], [], []
     r, c = parameter[0], parameter[1]
     nodes, expected_spread = [r*c] * N, [np.sqrt(r*c)] * N
@@ -91,5 +91,12 @@ for parameter in parameters:
                     ["Spreads", spreads, expected_spread, plot_spreads_on],
                     ["Averages", averages, [0] * N, plot_averages_on]]
         ising.PlotMatrixData(Ns, run_data, r, c, run_number, debug)
+ """
+""" for parameter in parameters:
+    dispersions, spreads, averages, Ns, matrices = [], [], [], [], []
+    r, c = parameter[0], parameter[1]
+    nodes, expected_spread = [r*c] * N, [np.sqrt(r*c)] * N """
+
+average = ising.Magnetization([[1, -1, 1], [-1, 1, -1], [1, -1, 1]], debug)
 
 # plt.show()

@@ -6,6 +6,18 @@ from . import Matrix as matrix
 from . import PlotData as plotdata
 from . import PrintData as printdata
 
+def Magnetization(spin_matrix, debug):
+    magnetization = 0
+    for row in spin_matrix:
+        for col in row:
+            magnetization += spin_matrix[row][col]
+
+    if debug:
+        print(magnetization)
+
+    return magnetization
+
+
 def AverageMangnetization(m_values, N, debug):
     avg_m, avg_m_2, dispersion = 0, 0, 0
 

@@ -13,7 +13,7 @@ def Experiment(r, c, N, results, magnetizations, print_on, plot_matrix_on, run_n
         spin_matrix, pretty_matrix, m = matrix.GenerateMatrix(r, c)
         
         if plot_matrix_on:
-            plotdata.PlotMatrix(spin_matrix, run_number, i + 1, r, c, N)
+            plotdata.PlotMatrix(spin_matrix, run_number, i + 1, r, c, N, debug)
         m_values.append(m)
         matrices.append(spin_matrix)
         pretty_matrices.append([pretty_matrix, m])
