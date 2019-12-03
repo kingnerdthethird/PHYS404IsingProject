@@ -1,29 +1,15 @@
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-# plt.rcParams.update({'font.size': 22})
 import os
+
 import Subscripts as ising
-# from Subscripts.Backend import RunNumber
 
-debug = True
-
-print_on = False
-print_size_on = False
-print_matrices_on = False
-print_average_on = False
-print_dispersion_on = False
-print_spread_on = False
-print_ms_on = False
-plot_on = False
-plot_matrix_on = False
-plot_dispersions_on = False
-plot_spreads_on = False
-plot_averages_on = False
-
-run_number = ising.RunNumber(debug)
+run_number = ising.RunNumber()
+print(run_number)
 
 main = str(os.path.dirname(os.path.abspath(__file__)))
+print(main)
 directories = ["/Data",
                "/Data/SpinMatrices", 
                "/Data/SpinMatrices/Plots", 
@@ -34,69 +20,86 @@ directories = ["/Data",
                "/Data/Magnetizations", 
                "/Data/Figures", 
                "/Data/Figures/" + str(run_number)]
+print(directories)
 
-ising.CreateDirectories(main, directories, debug)
+ising.CreateDirectories(main, directories)
 
-outcomes = open("Isaac/Data/Results/Outcome " + str(run_number) + ".txt", "w+")
-magnetizations = open("Isaac/Data/Magnetizations/Magnetizations " + str(run_number) + ".txt", "w+")
+parameters, N = [[4, 4], [10, 10], [64, 64]], 1000
+print(parameters)
+print(N)
+print('\n')
+# parameters, N = [[64, 64]], 100
 
-# level one testing parameters
-#parameters, N = [[3, 3]], 5 
-# level two testing parameters
-#parameters, N = [[3, 3]], 10 
-# level three testing parameters
-parameters, N = [[10, 10]], 10 
-# level four testing parameters
-#parameters, N = [[10, 10]], 100 
-# small experiment parameters
-#parameters, N = [[3, 3], [10, 10], [64, 64]], 1000 
-# large experiment parameters
-#parameters, N = [[3, 3], [10, 10], [64, 64]], 100000 
-# extreme experiment parameters
-#parameters, N = [[3, 3], [10, 10], [64, 64], [128, 128], [256, 256]], 1000 
-# maximum experiment parameters
-#parameters, N = [[3, 3], [10, 10], [64, 64], [128, 128], [256, 256]], 100000 
+for parameter in parameters:
+    rows, cols = parameter[0], parameter[1]
+    print("Rows: " + str(rows) + " Cols: " + str(cols))
+    spin_matrices, magnetizations = [], []
+    average_magnetizations, dispersions, spreads = [], [], []
+    data, x_values = [], []
 
-""" for parameter in parameters:
-    dispersions, spreads, averages, Ns, matrices = [], [], [], [], []
-    r, c = parameter[0], parameter[1]
-    nodes, expected_spread = [r*c] * N, [np.sqrt(r*c)] * N
-
+    average_spin = [[0] * cols] * rows
 
     for i in range(1, N + 1):
-        data = ising.Experiment(r, c, i, outcomes, magnetizations, print_on, plot_matrix_on, run_number, debug)
-        dispersion, spread, average, m_s, matrices = data[0], data[1], data[2], data[3], data[4]
+        spin_matrix = ising.GenerateMatrix(rows, cols)
+        print(spin_matrix)
+        pretty_matrix = ising.GeneratePrettyMatrix(spin_matrix)
+        print(pretty_matrix)
+        m = ising.Magnetization(spin_matrix)
+        print(m)
+
+        # ising.PlotMatrix(spin_matrix, rows, cols, run_number, N, i)
+
+        # ising.PrintSpinMatrix(spin_matrix, rows, cols, m, run_number, i)
+        # ising.PrintPrettyMatrix(pretty_matrix, rows, cols, m, run_number, i)
+
+        spin_matrices.append(spin_matrix)
+        print(spin_matrices)
+        magnetizations.append(m)
+        print(magnetizations)
+
+        average_magnetization = ising.AverageMangnetization(magnetizations, i)
+        print(average_magnetization)
+        average_magnetizations.append(average_magnetization)
+        print(average_magnetizations)
+
+        dispersion = ising.Dispersion(magnetizations, average_magnetization, i)
+        print(dispersion)
         dispersions.append(dispersion)
+        print(dispersions)
+
+        spread = np.sqrt(dispersion)
+        print(spread)
         spreads.append(spread)
-        averages.append(average)
-        Ns.append(i)
-        # matrices.append(spin_matrix)
-        ising.PlotAverageSpin(matrices, r, c, N, run_number, i, debug)
-        if print_size_on:
-            print("Size: " + str(r) + 'x' + str(c), end = ' ')
-        if print_matrices_on:
-            print("Matrices: " + str(i), end = ' ')
-        if print_average_on: 
-            print("Average: " + str(average), end = ' ')
-        if print_dispersion_on: 
-            print("Dispersion: " + str(dispersion), end = ' ')
-        if print_spread_on:
-            print("Spread: " + str(spread), end = ' ')
-        if print_ms_on:
-            print("Magnetizations: " + m_s)
+        print(spreads)
+
+        x_values.append(i)
+        print(x_values)
+
+        average_spin = ising.GenerateAverageMatrix(spin_matrix, average_spin, rows, cols, i)
+        print(average_spin)
+        ising.PlotAverageSpin(average_spin, rows, cols, N, run_number, i)
         print('\n')
 
-    if plot_on:
-        run_data = [["Dispersions", dispersions, nodes, plot_dispersions_on],
-                    ["Spreads", spreads, expected_spread, plot_spreads_on],
-                    ["Averages", averages, [0] * N, plot_averages_on]]
-        ising.PlotMatrixData(Ns, run_data, r, c, run_number, debug)
- """
-""" for parameter in parameters:
-    dispersions, spreads, averages, Ns, matrices = [], [], [], [], []
-    r, c = parameter[0], parameter[1]
-    nodes, expected_spread = [r*c] * N, [np.sqrt(r*c)] * N """
+    data.append(["Magnetizations", magnetizations, [0] * N])
+    print(data)
+    data.append(["Average Magnetizations", average_magnetizations, [0] * N])
+    print(data)
+    data.append(["Dispersion", dispersions, [rows*cols] * N])
+    print(data)
+    data.append(["Spreads", spreads, [np.sqrt(rows*cols)] * N])
+    print(data)
 
-average = ising.Magnetization([[1, -1, 1], [-1, 1, -1], [1, -1, 1]], debug)
+    ising.PlotMatrixData(x_values, data, rows, cols, run_number, N)
 
-# plt.show()
+    if N >= 30:
+        frames_per_second = int(N/30)
+    else:
+        frames_per_second = 1
+
+    print(frames_per_second)
+
+    image_directory = "Isaac/Data/SpinMatrices/Plots/" + str(run_number) + '/'+ str(rows) + 'x' + str(cols) + '/' + "Averages"
+    print(image_directory)
+    save_directory = "Isaac/Data/SpinMatrices/Plots/" + str(run_number) + '/'+ str(rows) + 'x' + str(cols) + '/' + "Averages"
+    print(save_directory)
+    ising.CreateGif(image_directory, save_directory, frames_per_second)

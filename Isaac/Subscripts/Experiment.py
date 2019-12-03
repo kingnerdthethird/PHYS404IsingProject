@@ -6,7 +6,7 @@ from . import Matrix as matrix
 from . import PlotData as plotdata
 from . import PrintData as printdata
 
-def Experiment(r, c, N, results, magnetizations, print_on, plot_matrix_on, run_number, debug):
+""" def Experiment(r, c, N, results, magnetizations, print_on, plot_matrix_on, run_number, debug):
     matrices, pretty_matrices, m_values, dispersion = [], [], [], 0
 
     for i in range(0, N):
@@ -32,4 +32,4 @@ def Experiment(r, c, N, results, magnetizations, print_on, plot_matrix_on, run_n
     for m in m_values:
         magnetizations.write(str(m) + ' ')
     magnetizations.write('\n\n')
-    return (dispersion, spread, average, m_values, matrices)
+    return (dispersion, spread, average, m_values, matrices) """
