@@ -24,7 +24,7 @@ print(directories)
 
 ising.CreateDirectories(main, directories)
 
-parameters, N = [[4, 4], [10, 10], [64, 64]], 1000
+parameters, N = [[4, 4], [10, 10], [64, 64]], 500
 print(parameters)
 print(N)
 print('\n')
