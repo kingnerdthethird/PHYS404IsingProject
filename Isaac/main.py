@@ -102,13 +102,13 @@ print("Fixed K Values")
 # K is as above
 # J is as above
 
-# parameters = [ [200, 200, 1000, 1, 1, 1],
-#               [200, 200, 1000, 10, 1, 1],
-#               [200, 200, 1000, 100, 1, 1],
-#               [200, 200, 1000, 1000, 1, 1],
-#               [200, 200, 1000, 10000, 1, 1],
-#               [200, 200, 1000, 100000, 1, 1] ] # normal parameters
-parameters = [[10, 10, 100, 100, 1, 1], [10, 10, 100, 10, 1, 1]] # testing parameters
+# parameters = [ [200, 200, 1000, 1, 0.5, 1],
+#               [200, 200, 1000, 10, 0.5, 1],
+#               [200, 200, 1000, 100, 0.5, 1],
+#               [200, 200, 1000, 1000, 0.5, 1],
+#               [200, 200, 1000, 10000, 0.5, 1],
+#               [200, 200, 1000, 100000, 0.5, 1] ] # normal parameters
+parameters = [[10, 10, 100, 100, 0.5, 1], [10, 10, 100, 10, 0.5, 1]] # testing parameters
 print("Parameters: " + str(parameters)) # print the parameters for fixed K values
 
 ising.FixedK(parameters, run_number) # this runs the code for fixed K value
