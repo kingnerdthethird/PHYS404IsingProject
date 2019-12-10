@@ -3,6 +3,7 @@ import numpy as np
 from . import Analysis as analysis
 from . import Backend as backend
 from . import Experiment as experiment
+from . import Metropolis as metropolis
 from . import PlotData as plotdata
 from . import PrintData as printdata
 
@@ -51,3 +52,7 @@ def GenerateAverageMatrix(spin_matrix, previous_average, rows, cols, num):
         average_spins.append(row)
 
     return average_spins
+
+def AugmentMatrix(spin_matrix, rows, cols):
+    augmented_matrix = []
+    return augmented_matrix

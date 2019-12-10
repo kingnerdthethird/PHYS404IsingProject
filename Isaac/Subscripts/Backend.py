@@ -3,6 +3,7 @@ import os
 from . import Analysis as analysis
 from . import Experiment as experiment
 from . import Matrix as matrix
+from . import Metropolis as metropolis
 from . import PlotData as plotdata
 from . import PrintData as printdata
 

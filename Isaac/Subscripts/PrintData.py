@@ -4,6 +4,7 @@ from . import Analysis as analysis
 from . import Backend as backend
 from . import Experiment as experiment
 from . import Matrix as matrix
+from . import Metropolis as metropolis
 from . import PlotData as plotdata
 
 def PrintSpinMatrix(spin_matrix, rows, cols, m, run_number, i):

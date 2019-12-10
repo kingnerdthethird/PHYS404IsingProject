@@ -8,6 +8,7 @@ from . import Analysis as analysis
 from . import Backend as backend
 from . import Experiment as experiment
 from . import Matrix as matrix
+from . import Metropolis as metropolis
 from . import PrintData as printdata
 
 def PlotMatrixData(x, data, rows, cols, run_number, N):
@@ -94,15 +95,73 @@ def PlotAverageSpin(average_spins, rows, cols, N, run_number, num):
 
     plt.close()
 
-def CreateGif(image_directory, save_directory, frames_per_second):
+def CreateGif(image_directory, save_directory, frames_per_second, name):
     images = []
 
     # print(os.listdir(image_directory))
 
     for file_name in os.listdir(image_directory):
-        print(file_name)
         if file_name.endswith('.png'):
             file_path = os.path.join(image_directory, file_name)
             images.append(imageio.imread(file_path))
 
-    imageio.mimsave(save_directory + "/Averages.gif", images, fps=frames_per_second)
+    imageio.mimsave(save_directory + str(name) + ".gif", images, fps=frames_per_second)
+
+def PlotEnsembleData(x, data, rows, cols, run_number, X):
+    directory = "Isaac/Data/Figures/" + str(run_number)
+    plt.rcParams.update({'font.size': 24})
+    
+    plt.figure(figsize=(44.0, 34.0))
+    l = len(data)
+    i = 1
+
+    for input in data:
+        name, y = input[0], input[1]
+        # print(y)
+        plt.subplot(l, 1, i)
+        plt.plot(x, y, 'o')
+        plt.plot(x, y, 'blue')
+            
+        plt.xlabel("K Values")
+        plt.ylabel(name)
+        plt.title(name + " as a function of K " + 
+                  '(' + str(rows) + 'x' + str(cols) + ')')
+        i += 1
+
+    plt.tight_layout()
+    plt.savefig(directory + '/' + str(rows) + 'x' + str(cols) + " Ensemble " + name + " Run " + str(run_number) + '.pdf', bbox_inches='tight', dpi=1000)
+    plt.close()
+    # plt.show()
+
+def PlotEnsemble(spin_matrix, rows, cols, run_number, i, K, decimals, energy, magnetization, N_MC):
+    directory = "Isaac/Data/SpinMatrices/Plots/" + str(run_number) + '/' + str(rows) + 'x' + str(cols) + " Ensembles"
+    backend.CreateDirectory(directory)
+    directory = "Isaac/Data/SpinMatrices/Plots/" + str(run_number) + '/'+ str(rows) + 'x' + str(cols) + " Ensembles/Animations"
+    backend.CreateDirectory(directory)
+    directory = "Isaac/Data/SpinMatrices/Plots/" + str(run_number) + '/' + str(rows) + 'x' + str(cols) + " Ensembles/K = " + str(round(K, decimals)) + '/'
+    backend.CreateDirectory(directory)
+    # directory = directory + '/' + str(i) + " Matrices"
+    # backend.CreateDirectory(directory)
+    plt.rcParams.update({'font.size': 12})
+
+
+    fig = plt.figure(figsize=(5, 5))
+
+    R, C = np.meshgrid(range(rows + 1), range(cols + 1))
+    colors = mpl.colors.ListedColormap(['blue', 'red'])
+    bounds = [-1, 0, 1]
+    norm = mpl.colors.BoundaryNorm(bounds, colors.N)
+
+    plt.tick_params(axis='both', which='both', bottom=False, top=False, labelbottom=False, right=False, left=False, labelleft=False)
+    plt.pcolormesh(R, C, spin_matrix, cmap = colors, norm = norm, vmin = -1, vmax = 1)
+    plt.axis('tight')
+    plt.title("Ensemble: " + str(i) + " Energy: " + str(energy) + " Magnetization: " + str(magnetization))
+
+    fig.savefig("Isaac/Data/SpinMatrices/Plots/" + 
+                str(run_number) + '/'+ 
+                str(rows) + 'x' + str(cols) + " Ensembles/K = " + str(round(K, decimals)) + '/' +
+                "Spin Ensemble " + str(i).zfill(len(str(N_MC))) + 
+                " Run " + str(run_number) +
+                ".png", 
+                dpi = 200)
+    plt.close()

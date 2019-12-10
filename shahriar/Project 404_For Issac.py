@@ -8,7 +8,7 @@ from scipy.interpolate import CubicSpline ; from scipy.optimize import curve_fit
 import numpy.linalg as nlg  ;  import matplotlib.pyplot as plt ; import os
 import numpy as np ; import os ; import copy ; import random
 pi = np.pi
-os.chdir('C:\\F\\MC\\Phys 404\\Homework\\Final project\\Matrix\\10X10')
+os.chdir('C:\\Users\\Ashsp\\Documents\\GitHub\\PHYS404IsingProject\\Shahriar')
 #print(os.getcwd())
 K_sweep = np.arange(1, 6 , 0.1)
 #print(K_sweep)
@@ -166,7 +166,7 @@ for K in range(0, KK):
                     else:
                         X[pick_spin_row][pick_spin_col] = -1
 
-    os.chdir('C:\\F\\MC\\Phys 404\\Homework\\Final project\\Matrix\\10X10')
+    os.chdir('C:\\Users\\Ashsp\\Documents\\GitHub\\PHYS404IsingProject\\Shahriar')
     
 """   
 ####################################################################

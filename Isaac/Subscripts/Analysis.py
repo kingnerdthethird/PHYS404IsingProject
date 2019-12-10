@@ -3,6 +3,7 @@ import numpy as np
 from . import Backend as backend
 from . import Experiment as experiment
 from . import Matrix as matrix
+from . import Metropolis as metropolis
 from . import PlotData as plotdata
 from . import PrintData as printdata
 
@@ -16,18 +17,25 @@ def Magnetization(spin_matrix):
     print('\n')
     return m
 
-def AverageMangnetization(magnetizations, i):
+def AverageMangnetization(magnetizations, N_MC):
     average_magnetization = 0
 
     for m in magnetizations:
         average_magnetization += m
-        print(average_magnetization)
 
-    average_magnetization /= i
-    print(average_magnetization)
+    average_magnetization /= N_MC
 
-    print('\n')
     return average_magnetization
+
+def AverageEnergy(energies, N_MC):
+    average_energy = 0
+
+    for E in energies:
+        average_energy += E
+
+    average_energy /= N_MC
+    
+    return average_energy
 
 def Dispersion(magnetizations, average_magnetization, i):
     magnetizations_squared = 0

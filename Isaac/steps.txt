@@ -1,0 +1,33 @@
+1. Generate Matrix
+2. Augment Matrix (not needed)
+3. Choose row and col randomly
+4. Calculate E_1, E_2, dE
+    4.a. if dE > 0 Flip
+    4.b. if dE < 0 choose random number R
+        4.b.i. if R > exp(zKdE) Flip
+        4.b.ii. if R < exp(zKdE) !Flip
+5. Repeat steps 2, 3, 4 X times
+6. Repeat steps 2, 3, 4, 5 N times per K value
+7. Plot data
+    7.a. plot <m> vs. K
+    7.b. plot E vs. N vs. K (animated), <E> vs. K
+    7.c. plot matrix
+8. Repeat steps 1, 2, 3, 4, 5, 6, 7 for different magnetic fields
+9. Other plots
+
+functions needed:
+something to go through each matrix randomly X times
+    MonteCarlo
+something to calculate average energy
+    AverageEnergy
+something to calculate E_1, E_2, dE
+    NearestNeighborEnergy used in
+    EnergyChange
+something to decide whether to flip spins
+    FlipSpins
+something to repeat everything for all K
+    StepKValues
+something to repeat for magnetic fields
+    StepHValues
+plots
+    TBD
