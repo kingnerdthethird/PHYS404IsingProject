@@ -115,8 +115,8 @@ def FixedK(parameters, run_number):
         N = rows * cols
         N_MC = int(N * X)
 
-        if N_MC >= 15:
-            frames_per_second = int(N_MC/15)
+        if X >= 10:
+            frames_per_second = int(X/10)
         else:
             frames_per_second = 1
 
@@ -138,8 +138,9 @@ def FixedK(parameters, run_number):
         for i in range(1, X + 1):
             for j in range(1, Y + 1):
                 spin_matrix, energy, magnetization = metropolis.MonteCarlo(spin_matrix, rows, cols, K, J, energy, magnetization)
-                energies.append(energy)
-                magnetizations.append(magnetization / N)
+                
+            energies.append(energy)
+            magnetizations.append(magnetization / N)
 
             plotdata.PlotEnsemble(spin_matrix, rows, cols, run_number, i, "K = " + str(round(K, 3)) + " X = " + str(X) + " Y = " + str(Y), 3, energy, magnetization, X)
 
@@ -149,7 +150,9 @@ def FixedK(parameters, run_number):
             average_energies.append(average_energy)
             average_magnetizations.append(average_magnetization)
         
+        data.append(["Energy", "Time", energies])
         data.append(["Average Energy", "Time", average_energies])
+        data.append(["Magnetizations", "Time", magnetizations])
         data.append(["Average Magnetization", "Time", average_magnetizations])
         plotdata.PlotEnsembleData(range(0, X + 1), data, "Averages over Time (X = " + str(X) + " Y = " + str(Y) + ")", rows, cols, run_number, X)
 
