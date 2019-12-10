@@ -52,7 +52,3 @@ def GenerateAverageMatrix(spin_matrix, previous_average, rows, cols, num):
         average_spins.append(row)
 
     return average_spins
-
-def AugmentMatrix(spin_matrix, rows, cols):
-    augmented_matrix = []
-    return augmented_matrix

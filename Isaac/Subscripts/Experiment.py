@@ -11,7 +11,6 @@ from . import PrintData as printdata
 def StepOne(parameters, N, run_number):
     for parameter in parameters:
         rows, cols = parameter
-        print("Rows: " + str(rows) + " Cols: " + str(cols))
         spin_matrices, magnetizations = [], []
         average_magnetizations, dispersions, spreads = [], [], []
         data, x_values = [], []
@@ -20,11 +19,8 @@ def StepOne(parameters, N, run_number):
 
         for i in range(1, N + 1):
             spin_matrix = matrix.GenerateMatrix(rows, cols)
-            print(spin_matrix)
             pretty_matrix = matrix.GeneratePrettyMatrix(spin_matrix)
-            print(pretty_matrix)
             m = analysis.Magnetization(spin_matrix)
-            print(m)
 
             # ising.PlotMatrix(spin_matrix, rows, cols, run_number, N, i)
 
@@ -32,41 +28,26 @@ def StepOne(parameters, N, run_number):
             # ising.PrintPrettyMatrix(pretty_matrix, rows, cols, m, run_number, i)
 
             spin_matrices.append(spin_matrix)
-            print(spin_matrices)
             magnetizations.append(m)
-            print(magnetizations)
 
             average_magnetization = analysis.AverageMangnetization(magnetizations, i)
-            print(average_magnetization)
             average_magnetizations.append(average_magnetization)
-            print(average_magnetizations)
 
             dispersion = analysis.Dispersion(magnetizations, average_magnetization, i)
-            print(dispersion)
             dispersions.append(dispersion)
-            print(dispersions)
 
             spread = np.sqrt(dispersion)
-            print(spread)
             spreads.append(spread)
-            print(spreads)
 
             x_values.append(i)
-            print(x_values)
 
             average_spin = matrix.GenerateAverageMatrix(spin_matrix, average_spin, rows, cols, i)
-            print(average_spin)
             plotdata.PlotAverageSpin(average_spin, rows, cols, N, run_number, i)
-            print('\n')
 
         data.append(["Magnetizations", magnetizations, [0] * N])
-        print(data)
         data.append(["Average Magnetizations", average_magnetizations, [0] * N])
-        print(data)
         data.append(["Dispersion", dispersions, [rows*cols] * N])
-        print(data)
         data.append(["Spreads", spreads, [np.sqrt(rows*cols)] * N])
-        print(data)
 
         plotdata.PlotMatrixData(x_values, data, rows, cols, run_number, N)
 
@@ -75,12 +56,8 @@ def StepOne(parameters, N, run_number):
         else:
             frames_per_second = 1
 
-        print(frames_per_second)
-
         image_directory = "Isaac/Data/SpinMatrices/Plots/" + str(run_number) + '/'+ str(rows) + 'x' + str(cols) + '/' + "Averages"
-        print(image_directory)
         save_directory = "Isaac/Data/SpinMatrices/Plots/" + str(run_number) + '/'+ str(rows) + 'x' + str(cols) + '/' + "Averages"
-        print(save_directory)
         plotdata.CreateGif(image_directory, save_directory, frames_per_second, "Averages")
 
 def StepTwo(parameters, X, K_range, run_number, J, decimals):
@@ -88,7 +65,7 @@ def StepTwo(parameters, X, K_range, run_number, J, decimals):
         rows, cols = parameter
 
         N = rows * cols
-        N_MC = N * X
+        N_MC = int(N * X)
         if N_MC >= 15:
             frames_per_second = int(N_MC/15)
         else:
@@ -104,13 +81,13 @@ def StepTwo(parameters, X, K_range, run_number, J, decimals):
             magnetization = metropolis.TotalMagnetization(spin_matrix, rows, cols)
             energies.append(energy)
             magnetizations.append(magnetization)
-            plotdata.PlotEnsemble(spin_matrix, rows, cols, run_number, 0, K, decimals, energy, magnetization, N_MC)
+            plotdata.PlotEnsemble(spin_matrix, rows, cols, run_number, 0, "K = " + str(round(K, decimals)), decimals, energy, magnetization, N_MC)
 
             for q in range(1, N_MC + 1):
                 spin_matrix, energy, magnetization = metropolis.MonteCarlo(spin_matrix, rows, cols, K, J, energy, magnetization)
                 energies.append(energy)
                 magnetizations.append(magnetization / N)
-                plotdata.PlotEnsemble(spin_matrix, rows, cols, run_number, q, K, decimals, energy, magnetization, N_MC)
+                plotdata.PlotEnsemble(spin_matrix, rows, cols, run_number, q, "K = " + str(round(K, decimals)), decimals, energy, magnetization, N_MC)
                 
             average_energy = analysis.AverageEnergy(energies, N_MC + 1)
             average_magnetization = analysis.AverageMangnetization(magnetizations, N_MC + 1)
@@ -122,8 +99,57 @@ def StepTwo(parameters, X, K_range, run_number, J, decimals):
             save_directory = "Isaac/Data/SpinMatrices/Plots/" + str(run_number) + '/'+ str(rows) + 'x' + str(cols) + " Ensembles/Animations/"
             plotdata.CreateGif(image_directory, save_directory, frames_per_second, "Evolution for K = " + str(round(K, decimals)))
 
-        data.append(["Average Energy", average_energies])
-        data.append(["Average Magnetizations", average_magnetizations])     
+        data.append(["Average Energy", "K", average_energies])
+        data.append(["Average Magnetizations", "K", average_magnetizations])     
 
-        plotdata.PlotEnsembleData(K_range, data, rows, cols, run_number, X)
+        plotdata.PlotEnsembleData(K_range, data, "Averages over K", rows, cols, run_number, X)
     return 0
+
+def FixedK(parameters, run_number):
+    for parameter in parameters:
+        rows, cols, X, Y, K, J = parameter
+
+        N = rows * cols
+        N_MC = int(N * X)
+
+        if N_MC >= 15:
+            frames_per_second = int(N_MC/15)
+        else:
+            frames_per_second = 1
+
+        spin_matrix = matrix.GenerateMatrix(rows, cols)
+        average_energies, average_magnetizations, data = [], [], []
+        energies, magnetizations = [], []
+
+        energy = metropolis.TotalEnergy(spin_matrix, rows, cols, J)
+        magnetization = metropolis.TotalMagnetization(spin_matrix, rows, cols)
+        energies.append(energy)
+        magnetizations.append(magnetization)
+
+        average_energy = analysis.AverageEnergy(energies, N_MC + 1)
+        average_magnetization = analysis.AverageMangnetization(magnetizations, N_MC + 1)
+        average_energies.append(average_energy)
+        average_magnetizations.append(average_magnetization)
+
+        plotdata.PlotEnsemble(spin_matrix, rows, cols, run_number, 0, "K = " + str(round(K, 3)) + " X = " + str(X) + " Y = " + str(Y), 3, energy, magnetization, X)
+        for i in range(1, X + 1):
+            for j in range(1, Y + 1):
+                spin_matrix, energy, magnetization = metropolis.MonteCarlo(spin_matrix, rows, cols, K, J, energy, magnetization)
+                energies.append(energy)
+                magnetizations.append(magnetization / N)
+
+            plotdata.PlotEnsemble(spin_matrix, rows, cols, run_number, i, "K = " + str(round(K, 3)) + " X = " + str(X) + " Y = " + str(Y), 3, energy, magnetization, X)
+
+            average_energy = analysis.AverageEnergy(energies, N_MC + 1)
+            average_magnetization = analysis.AverageMangnetization(magnetizations, N_MC + 1)
+
+            average_energies.append(average_energy)
+            average_magnetizations.append(average_magnetization)
+        
+        data.append(["Average Energy", "Time", average_energies])
+        data.append(["Average Magnetization", "Time", average_magnetizations])
+        plotdata.PlotEnsembleData(range(0, X + 1), data, "Averages over Time (X = " + str(X) + " Y = " + str(Y) + ")", rows, cols, run_number, X)
+
+        image_directory = "Isaac/Data/SpinMatrices/Plots/" + str(run_number) + '/'+ str(rows) + 'x' + str(cols) + " Ensembles/K = " + str(round(K, 3)) + " X = " + str(X) + " Y = " + str(Y)
+        save_directory = "Isaac/Data/SpinMatrices/Plots/" + str(run_number) + '/'+ str(rows) + 'x' + str(cols) + " Ensembles/Animations/"
+        plotdata.CreateGif(image_directory, save_directory, frames_per_second, "Fixed K = " + str(round(K, 3)) + " X = " + str(X) + " Y = " + str(Y))

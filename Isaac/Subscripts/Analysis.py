@@ -12,9 +12,7 @@ def Magnetization(spin_matrix):
     for row in spin_matrix:
         for col in row:
             m += col
-            print(m)
 
-    print('\n')
     return m
 
 def AverageMangnetization(magnetizations, N_MC):
@@ -42,13 +40,9 @@ def Dispersion(magnetizations, average_magnetization, i):
 
     for m in magnetizations:
         magnetizations_squared += (m**2)
-        print(magnetizations_squared)
 
     magnetizations_squared /= i
-    print(magnetizations_squared)
     
     dispersion = magnetizations_squared - (average_magnetization**2)
-    print(dispersion)
 
-    print('\n')
     return dispersion
