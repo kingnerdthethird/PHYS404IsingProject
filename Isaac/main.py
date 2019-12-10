@@ -29,7 +29,7 @@ ising.CreateDirectories(main, directories)
 
 # ising.StepOne(parameters, N, run_number)
 
-parameters, X, K_i, K_f, dK, J = [[16, 16]], 10, 0.1, 0.1, 0.1, 1
+parameters, X, K_i, K_f, dK, J = [[64, 64]], 10, 0.01, 1, 0.01, 1
 
 if K_i >= 0.1:
     decimals = 1
