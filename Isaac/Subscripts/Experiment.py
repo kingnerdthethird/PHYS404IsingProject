@@ -10,6 +10,7 @@ from . import PrintData as printdata
 
 def StepOne(parameters, N, run_number):
     for parameter in parameters:
+        print(parameter)
         rows, cols = parameter
         spin_matrices, magnetizations = [], []
         average_magnetizations, dispersions, spreads = [], [], []
@@ -62,6 +63,7 @@ def StepOne(parameters, N, run_number):
 
 def StepTwo(parameters, X, K_range, run_number, J, decimals):
     for parameter in parameters:
+        print(parameter)
         rows, cols = parameter
 
         N = rows * cols
@@ -107,6 +109,7 @@ def StepTwo(parameters, X, K_range, run_number, J, decimals):
 
 def FixedK(parameters, run_number):
     for parameter in parameters:
+        print(parameter)
         rows, cols, X, Y, K, J = parameter
 
         N = rows * cols
