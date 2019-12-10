@@ -25,11 +25,11 @@ directories = ["/Data",
 ising.CreateDirectories(main, directories)
 
 # parameters, N = [[1, 1], [2, 2], [4, 4], [8, 8], [16, 16], [32, 32], [64, 64], [128, 128], [256, 256], [512, 512], [1024, 1024]], 1000
-# parameters, N = [[4, 4]], 10
+parameters, N = [[32, 32]], 100
 
-# ising.StepOne(parameters, N, run_number)
+ising.StepOne(parameters, N, run_number)
 
-parameters, X, K_i, K_f, dK, J = [[16, 16]], 10, 0.1, 0.1, 0.1, 1
+parameters, X, K_i, K_f, dK, J = [[32, 32]], 10, 0.01, 0.5, 0.01, 1
 
 if K_i >= 0.1:
     decimals = 1
@@ -46,3 +46,12 @@ N_K = int((K_f - K_i + dK) / dK)
 K_range = np.linspace(K_i, K_f, N_K)
 
 ising.StepTwo(parameters, X, K_range, run_number, J, decimals)
+
+parameters = [ [200, 200, 1000, 1, 1, 1],
+               [200, 200, 1000, 10, 1, 1],
+               [200, 200, 1000, 100, 1, 1],
+               [200, 200, 1000, 1000, 1, 1],
+               [200, 200, 1000, 10000, 1, 1],
+               [200, 200, 1000, 100000, 1, 1] ]
+
+ising.FixedK(parameters, run_number)

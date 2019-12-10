@@ -129,10 +129,18 @@ def mcmove(config, beta):
 
 mcmove(state, 1) """
 
-test_matrix = [[1, 1, -1], [-1, -1, 1], [1, -1, 1]]
+""" test_matrix = [[1, 1, -1], [-1, -1, 1], [1, -1, 1]]
 
 print(ising.TotalEnergy(test_matrix, 3, 3, 1))
 
 print(ising.AverageEnergy([4, 6, 2, -4, 8, -12, 16, 10], 8))
 
-print(ising.TotalMagnetization(test_matrix, 3, 3))
+print(ising.TotalMagnetization(test_matrix, 3, 3)) """
+
+test_matrix = [[-1, -1, -1, -1], [-1, -1, -1, -1], [-1, -1, -1, -1], [-1, -1, -1, -1]]
+
+print(ising.TotalEnergy(test_matrix, 4, 4, 1))
+
+for i in range(1, 103):
+    for j in range(0, 10):
+        print(j + (i - 1) * 10)

@@ -107,7 +107,7 @@ def CreateGif(image_directory, save_directory, frames_per_second, name):
 
     imageio.mimsave(save_directory + str(name) + ".gif", images, fps=frames_per_second)
 
-def PlotEnsembleData(x, data, rows, cols, run_number, X):
+def PlotEnsembleData(x, data, file_name, rows, cols, run_number, X):
     directory = "Isaac/Data/Figures/" + str(run_number)
     plt.rcParams.update({'font.size': 24})
     
@@ -116,33 +116,33 @@ def PlotEnsembleData(x, data, rows, cols, run_number, X):
     i = 1
 
     for input in data:
-        name, y = input[0], input[1]
+        name, variable, y = input[0], input[1], input[2]
         # print(y)
         plt.subplot(l, 1, i)
         plt.plot(x, y, 'o')
         plt.plot(x, y, 'blue')
             
-        plt.xlabel("K Values")
+        plt.xlabel(variable)
         plt.ylabel(name)
-        plt.title(name + " as a function of K " + 
+        plt.title(name + " as a function of " + str(variable) + ' ' + 
                   '(' + str(rows) + 'x' + str(cols) + ')')
         i += 1
 
     plt.tight_layout()
-    plt.savefig(directory + '/' + str(rows) + 'x' + str(cols) + " Ensemble " + name + " Run " + str(run_number) + '.pdf', bbox_inches='tight', dpi=1000)
+    plt.savefig(directory + '/' + str(rows) + 'x' + str(cols) + " Ensemble " + file_name + " Run " + str(run_number) + '.pdf', bbox_inches='tight', dpi=1000)
     plt.close()
     # plt.show()
 
-def PlotEnsemble(spin_matrix, rows, cols, run_number, i, K, decimals, energy, magnetization, N_MC):
+def PlotEnsemble(spin_matrix, rows, cols, run_number, i, identifier, decimals, energy, magnetization, N_MC):
     directory = "Isaac/Data/SpinMatrices/Plots/" + str(run_number) + '/' + str(rows) + 'x' + str(cols) + " Ensembles"
     backend.CreateDirectory(directory)
     directory = "Isaac/Data/SpinMatrices/Plots/" + str(run_number) + '/'+ str(rows) + 'x' + str(cols) + " Ensembles/Animations"
     backend.CreateDirectory(directory)
-    directory = "Isaac/Data/SpinMatrices/Plots/" + str(run_number) + '/' + str(rows) + 'x' + str(cols) + " Ensembles/K = " + str(round(K, decimals)) + '/'
+    directory = "Isaac/Data/SpinMatrices/Plots/" + str(run_number) + '/' + str(rows) + 'x' + str(cols) + " Ensembles/" + str(identifier) + '/'
     backend.CreateDirectory(directory)
     # directory = directory + '/' + str(i) + " Matrices"
     # backend.CreateDirectory(directory)
-    plt.rcParams.update({'font.size': 12})
+    plt.rcParams.update({'font.size': 8})
 
 
     fig = plt.figure(figsize=(5, 5))
@@ -155,12 +155,12 @@ def PlotEnsemble(spin_matrix, rows, cols, run_number, i, K, decimals, energy, ma
     plt.tick_params(axis='both', which='both', bottom=False, top=False, labelbottom=False, right=False, left=False, labelleft=False)
     plt.pcolormesh(R, C, spin_matrix, cmap = colors, norm = norm, vmin = -1, vmax = 1)
     plt.axis('tight')
-    plt.title("Ensemble: " + str(i) + " Energy: " + str(energy) + " Magnetization: " + str(magnetization))
+    plt.title(str(identifier) + " Ensemble: " + str(i) + " Energy: " + str(energy) + " Magnetization: " + str(magnetization))
 
     fig.savefig("Isaac/Data/SpinMatrices/Plots/" + 
                 str(run_number) + '/'+ 
-                str(rows) + 'x' + str(cols) + " Ensembles/K = " + str(round(K, decimals)) + '/' +
-                "Spin Ensemble " + str(i).zfill(len(str(N_MC))) + 
+                str(rows) + 'x' + str(cols) + " Ensembles/" + str(identifier) + '/' +
+                "Spin Ensemble " + str(i).zfill(len(str(N_MC))) +
                 " Run " + str(run_number) +
                 ".png", 
                 dpi = 200)
